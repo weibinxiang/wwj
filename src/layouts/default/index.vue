@@ -3,7 +3,7 @@
     <LayoutFeatures />
     <LayoutHeader fixed v-if="getShowFullHeaderRef" />
     <Layout :class="[layoutClass]">
-      <LayoutSideBar v-if="getShowSidebar || getIsMobile" />
+      <!-- <LayoutSideBar v-if="getShowSidebar || getIsMobile" /> -->
       <Layout :class="`${prefixCls}-main`">
         <LayoutMultipleHeader />
         <LayoutContent />
@@ -20,7 +20,6 @@
 
   import LayoutHeader from './header/index.vue';
   import LayoutContent from './content/index.vue';
-  import LayoutSideBar from './sider/index.vue';
   import LayoutMultipleHeader from './header/MultipleHeader.vue';
 
   import { useHeaderSetting } from '/@/hooks/setting/useHeaderSetting';
@@ -37,7 +36,6 @@
       LayoutFooter: createAsyncComponent(() => import('/@/layouts/default/footer/index.vue')),
       LayoutHeader,
       LayoutContent,
-      LayoutSideBar,
       LayoutMultipleHeader,
       Layout,
     },

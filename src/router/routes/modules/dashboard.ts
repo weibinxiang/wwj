@@ -1,45 +1,62 @@
 import type { AppRouteModule } from '/@/router/types';
 
-import { LAYOUT } from '/@/router/constant';
-import { t } from '/@/hooks/web/useI18n';
-
 const dashboard: AppRouteModule = {
   path: '/dashboard',
   name: 'Dashboard',
-  component: LAYOUT,
-  redirect: '/dashboard/analysis',
+  component: import('/@/views/dashboard/layout.vue'),
+  redirect: '/dashboard/certification',
   meta: {
     orderNo: 10,
     icon: 'ion:grid-outline',
-    title: t('routes.dashboard.dashboard'),
+    title: '',
   },
   children: [
     {
-      path: 'analysis',
-      name: 'Analysis',
-      component: () => import('/@/views/dashboard/analysis/index.vue'),
+      path: 'certification',
+      name: 'Certification',
+      component: () => import('/@/views/dashboard/certification/index.vue'),
       meta: {
-        // affix: true,
-        title: t('routes.dashboard.analysis'),
+        title: 'Host Certification',
       },
-      redirect: '/dashboard/analysis/aaa',
-      children: [
-        {
-          path: 'aaa',
-          name: 'AAA',
-          component: () => import('/@/views/dashboard/analysis/index.vue'),
-          meta: {
-            title: '测试',
-          },
-        },
-      ],
     },
     {
-      path: 'workbench',
-      name: 'Workbench',
-      component: () => import('/@/views/dashboard/workbench/index.vue'),
+      path: 'hostAlbum',
+      name: 'HostAlbum',
+      component: () => import('/@/views/dashboard/hostAlbum/index.vue'),
       meta: {
-        title: t('routes.dashboard.workbench'),
+        title: 'Host Album & Story',
+      },
+    },
+    {
+      path: 'userAlbum',
+      name: 'UserAlbum',
+      component: () => import('/@/views/dashboard/userAlbum/index.vue'),
+      meta: {
+        title: 'User Album & Story',
+      },
+    },
+    {
+      path: 'textContent',
+      name: 'TextContent',
+      component: () => import('/@/views/dashboard/textContent/index.vue'),
+      meta: {
+        title: 'Text Content',
+      },
+    },
+    {
+      path: 'feedback',
+      name: 'Feedback',
+      component: () => import('/@/views/dashboard/feedback/index.vue'),
+      meta: {
+        title: 'Feedback',
+      },
+    },
+    {
+      path: 'service',
+      name: 'Service',
+      component: () => import('/@/views/dashboard/service/index.vue'),
+      meta: {
+        title: 'Online Service',
       },
     },
   ],

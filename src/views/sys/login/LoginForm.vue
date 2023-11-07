@@ -1,5 +1,8 @@
 <template>
-  <LoginFormTitle v-show="getShow" class="enter-x" />
+  <div class="text-center text-[#273C62] pt-11 pb-8">
+    <div class="text-30px font-bold">Victoria Studio</div>
+    <div class="text-lg">Customer Service System</div>
+  </div>
   <Form
     class="p-4 enter-x"
     :model="formData"
@@ -12,7 +15,7 @@
       <Input
         size="large"
         v-model:value="formData.account"
-        :placeholder="t('sys.login.userName')"
+        placeholder="Username"
         class="fix-auto-fill"
       />
     </FormItem>
@@ -21,7 +24,7 @@
         size="large"
         visibilityToggle
         v-model:value="formData.password"
-        :placeholder="t('sys.login.password')"
+        placeholder="Password"
       />
     </FormItem>
 
@@ -43,9 +46,9 @@
     </ARow> -->
 
     <FormItem class="enter-x">
-      <Button type="primary" size="large" block @click="handleLogin" :loading="loading">
-        {{ t('sys.login.loginButton') }}
-      </Button>
+      <Button type="primary" size="large" block @click="handleLogin" :loading="loading"
+        >Log in</Button
+      >
       <!-- <Button size="large" class="mt-4 enter-x" block @click="handleRegister">
         {{ t('sys.login.registerButton') }}
       </Button> -->
@@ -90,7 +93,6 @@
   //   GoogleCircleFilled,
   //   TwitterCircleFilled,
   // } from '@ant-design/icons-vue';
-  import LoginFormTitle from './LoginFormTitle.vue';
 
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';

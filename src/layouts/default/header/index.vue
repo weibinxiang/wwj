@@ -3,19 +3,13 @@
     <!-- left start -->
     <div :class="`${prefixCls}-left`">
       <!-- logo -->
-      <AppLogo
-        v-if="getShowHeaderLogo || getIsMobile"
-        :class="`${prefixCls}-logo`"
-        :theme="getHeaderTheme"
-        :style="getLogoWidth"
-      />
-      <LayoutTrigger
-        v-if="
-          (getShowContent && getShowHeaderTrigger && !getSplit && !getIsMixSidebar) || getIsMobile
-        "
-        :theme="getHeaderTheme"
-        :sider="false"
-      />
+      <!-- <div class="flex item-center">
+        <img src="/src/assets/images/login/tiktok.png" class="w-16 h-16 mr-2" />
+        <div class="text-[#273C62]">
+          <div class="text-30px font-bold">Victoria Studio</div>
+          <div class="text-lg">Customer Service System</div>
+        </div>
+      </div> -->
       <LayoutBreadcrumb v-if="getShowContent && getShowBread" :theme="getHeaderTheme" />
     </div>
     <!-- left end -->
@@ -58,7 +52,7 @@
   import { Layout } from 'ant-design-vue';
   import { computed, unref } from 'vue';
 
-  import { AppLocalePicker, AppLogo, AppSearch } from '@/components/Application';
+  import { AppLocalePicker, AppSearch } from '@/components/Application';
   import { SettingButtonPositionEnum } from '@/enums/appEnum';
   import { MenuModeEnum, MenuSplitTyeEnum } from '@/enums/menuEnum';
   import { useHeaderSetting } from '@/hooks/setting/useHeaderSetting';
@@ -71,7 +65,7 @@
   import { propTypes } from '@/utils/propTypes';
 
   import LayoutMenu from '../menu/index.vue';
-  import LayoutTrigger from '../trigger/index.vue';
+  // import LayoutTrigger from '../trigger/index.vue';
   import { ErrorAction, FullScreen, LayoutBreadcrumb, Notify, UserDropDown } from './components';
 
   const SettingDrawer = createAsyncComponent(() => import('@/layouts/default/setting/index.vue'), {
@@ -83,14 +77,7 @@
     fixed: propTypes.bool,
   });
   const { prefixCls } = useDesign('layout-header');
-  const {
-    getShowTopMenu,
-    getShowHeaderTrigger,
-    getSplit,
-    getIsMixMode,
-    getMenuWidth,
-    getIsMixSidebar,
-  } = useMenuSetting();
+  const { getShowTopMenu, getSplit } = useMenuSetting();
   const { getUseErrorHandle, getShowSettingButton, getSettingButtonPosition } = useRootSetting();
 
   const {
@@ -99,7 +86,6 @@
     getShowNotice,
     getShowContent,
     getShowBread,
-    getShowHeaderLogo,
     getShowHeader,
     getShowSearch,
   } = useHeaderSetting();
@@ -130,14 +116,6 @@
       return unref(getShowHeader);
     }
     return settingButtonPosition === SettingButtonPositionEnum.HEADER;
-  });
-
-  const getLogoWidth = computed(() => {
-    if (!unref(getIsMixMode) || unref(getIsMobile)) {
-      return {};
-    }
-    const width = unref(getMenuWidth) < 180 ? 180 : unref(getMenuWidth);
-    return { width: `${width}px` };
   });
 
   const getSplitType = computed(() => {

@@ -7,7 +7,7 @@ const dashboardRoute = {
   path: '/dashboard',
   name: 'Dashboard',
   component: 'LAYOUT',
-  redirect: '/dashboard/analysis',
+  redirect: '/dashboard/certification',
   meta: {
     title: 'routes.dashboard.dashboard',
     hideChildrenInMenu: true,
@@ -17,7 +17,7 @@ const dashboardRoute = {
     {
       path: 'analysis',
       name: 'Analysis',
-      component: '/dashboard/analysis/index',
+      component: '/dashboard/certification/index',
       meta: {
         hideMenu: true,
         hideBreadcrumb: true,
