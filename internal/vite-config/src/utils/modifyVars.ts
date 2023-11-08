@@ -7,7 +7,7 @@ import { theme } from 'ant-design-vue/lib';
 import convertLegacyToken from 'ant-design-vue/lib/theme/convertLegacyToken';
 
 const { defaultAlgorithm, defaultSeed } = theme;
-const primaryColor = '#0960bd';
+const primaryColor = '#0084FF';
 
 function generateAntColors(color: string, theme: 'default' | 'dark' = 'default') {
   return generate(color, {
@@ -38,7 +38,7 @@ export function generateModifyVars() {
     'info-color': primary,
     'processing-color': primary,
     'success-color': '#55D187', //  Success color
-    'error-color': '#ED6F6F', //  False color
+    'error-color': '#FA4A82', //  False color
     'warning-color': '#EFBD47', //   Warning color
     'font-size-base': '14px', //  Main font size
     'border-radius-base': '2px', //  Component/float fillet

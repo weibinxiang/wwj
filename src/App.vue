@@ -25,11 +25,11 @@
     Object.assign(
       {
         token: {
-          colorPrimary: '#0960bd',
+          colorPrimary: '#0084FF',
           colorSuccess: '#55D187',
           colorWarning: '#EFBD47',
-          colorError: '#ED6F6F',
-          colorInfo: '#0960bd',
+          colorError: '#FA4A82',
+          colorInfo: '#273C62',
         },
       },
       isDark.value ? darkTheme : {},

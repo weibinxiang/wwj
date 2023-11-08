@@ -3,7 +3,7 @@
     <div
       v-for="(item, index) in column"
       :key="index"
-      class="text-center text-[#273C62] flex-1 bg-[#fff] py-5 cursor-pointer"
+      class="text-center flex-1 bg-[#fff] py-5 cursor-pointer"
       :class="{ '!text-white !bg-[#0084FF]': active === index }"
       @click="handleColumn(item, index)"
     >
