@@ -21,7 +21,7 @@
         >
           <img
             src="/src/assets/images/login/tiktok.png"
-            class="absolute left-1/2 -top-15 transform -translate-x-1/2"
+            class="absolute left-1/2 -top-15 transform -translate-x-1/2 w-24"
           />
           <LoginForm />
           <ForgetPasswordForm />

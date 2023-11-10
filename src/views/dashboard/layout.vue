@@ -7,7 +7,7 @@
       <div class="flex">
         <img src="/src/assets/images/login/tiktok.png" class="w-16 h-16" />
         <div class="text-center text-[#273C62] ml-2">
-          <div class="text-30px font-bold">Victoria Studio</div>
+          <div class="text-3xl font-bold">Victoria Studio</div>
           <div class="text-lg">Customer Service System</div>
         </div>
       </div>

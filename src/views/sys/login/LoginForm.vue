@@ -1,6 +1,6 @@
 <template>
   <div class="text-center text-[#273C62] pt-11 pb-8">
-    <div class="text-30px font-bold">Victoria Studio</div>
+    <div class="text-3xl font-bold">Victoria Studio</div>
     <div class="text-lg">Customer Service System</div>
   </div>
   <Form

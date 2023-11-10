@@ -99,7 +99,7 @@
       <div class="text-2xl font-bold mt-12 mb-6">Album</div>
       <div
         class="py-6 grid gap-12 bg-gray-100 px-12 rounded-lg"
-        style="grid-template-columns: repeat(auto-fill, 300px)"
+        style="grid-template-columns: repeat(auto-fill, 18.75rem)"
       >
         <AlbumCard :src="testImg" v-for="item in 5" :key="item" />
       </div>
@@ -147,7 +147,8 @@
   }
 
   .ant-descriptions-item-label {
-    padding: 28px 24px !important;
+    @apply !py-7 !px-6;
+
     text-align: center !important;
 
     span {
