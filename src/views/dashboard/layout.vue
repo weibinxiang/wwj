@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <ColumnCard v-model:active="active" @change="handleCloumnChange" />
+    <ColumnCard v-model:active="active" :column="column" @change="handleCloumnChange" />
     <PageLayout />
   </div>
 </template>
@@ -34,13 +34,67 @@
   import { useRouter } from 'vue-router';
   import PageLayout from '/@/layouts/page/index.vue';
 
-  const active = ref(CloumnEnum.first);
+  const column = ref([
+    {
+      title: 'Host Certification',
+      number: 689,
+      new: false,
+      status: 'pending',
+      pathName: 'Certification',
+    },
+    {
+      title: 'Host Album & Story',
+      number: 9085,
+      new: false,
+      status: 'pending',
+      pathName: 'HostAlbum',
+    },
+    {
+      title: 'User Album & Story',
+      number: 7,
+      new: false,
+      status: 'pending',
+      pathName: 'UserAlbum',
+    },
+    {
+      title: 'Text Content',
+      number: 42,
+      new: false,
+      status: 'pending',
+      pathName: 'TextContent',
+    },
+    {
+      title: 'Feedback',
+      number: 689,
+      new: false,
+      status: 'pending',
+      pathName: 'Feedback',
+    },
+    {
+      title: 'Online Service',
+      number: 689,
+      new: false,
+      status: 'pending',
+      pathName: 'Service',
+    },
+  ]);
   const router = useRouter();
+  const active = ref(
+    column.value.findIndex((item) => item.pathName === router.currentRoute.value.name) ||
+      CloumnEnum.first,
+  );
 
   function handleCloumnChange(item, index) {
+    console.log(router.currentRoute.value.name);
     active.value = index;
     router.push({
       name: item.pathName,
     });
   }
 </script>
+
+<style lang="less">
+  :where(.css-dev-only-do-not-override-7wmxui).ant-btn-default.ant-btn-dangerous {
+    border: 1px solid rgb(0 0 0 / 20%) !important;
+  }
+</style>

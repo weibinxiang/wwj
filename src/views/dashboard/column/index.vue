@@ -19,7 +19,6 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
   import { CloumnEnum } from '../typing';
 
   defineProps({
@@ -27,56 +26,15 @@
       type: Number,
       default: CloumnEnum.first,
     },
+    column: {
+      type: Array as PropType<any[]>,
+      default: () => [],
+    },
   });
 
   const emits = defineEmits({
     change: (item, index: CloumnEnum) => item || index,
   });
-
-  const column = ref([
-    {
-      title: 'Host Certification',
-      number: 689,
-      new: false,
-      status: 'pending',
-      pathName: 'Certification',
-    },
-    {
-      title: 'Host Album & Story',
-      number: 9085,
-      new: false,
-      status: 'pending',
-      pathName: 'HostAlbum',
-    },
-    {
-      title: 'User Album & Story',
-      number: 7,
-      new: false,
-      status: 'pending',
-      pathName: 'UserAlbum',
-    },
-    {
-      title: 'Text Content',
-      number: 42,
-      new: false,
-      status: 'pending',
-      pathName: 'TextContent',
-    },
-    {
-      title: 'Feedback',
-      number: 689,
-      new: false,
-      status: 'pending',
-      pathName: 'Feedback',
-    },
-    {
-      title: 'Online Service',
-      number: 689,
-      new: false,
-      status: 'pending',
-      pathName: 'Service',
-    },
-  ]);
 
   function handleColumn(item, index) {
     emits('change', item, index);
