@@ -156,8 +156,4 @@
       font-weight: bold;
     }
   }
-
-  :where(.css-dev-only-do-not-override-7wmxui).ant-btn-default.ant-btn-dangerous {
-    border: none !important;
-  }
 </style>
