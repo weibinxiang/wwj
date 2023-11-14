@@ -20,7 +20,9 @@
       <video :src="src" alt="" class="w-full h-full block cursor-pointer object-cover"></video>
       <div class="flex justify-center absolute bottom-4 w-full left-">
         <a-button danger class="mr-3 w-25.5 h-12 rounded-xl text-lg font-bold">Reject</a-button>
-        <a-button type="primary" class="w-25.5 h-12 rounded-xl text-lg font-bold">Accept</a-button>
+        <a-button type="primary" class="w-25.5 h-12 rounded-xl text-lg font-bold" @click="accept"
+          >Accept</a-button
+        >
       </div>
     </div>
   </div>
@@ -36,12 +38,16 @@
     },
   });
 
-  defineEmits({
+  const emits = defineEmits({
     accept: () => true,
     reject: () => true,
   });
 
   function preview(img) {
     createImgPreview({ imageList: [img] });
+  }
+
+  function accept() {
+    emits('accept');
   }
 </script>

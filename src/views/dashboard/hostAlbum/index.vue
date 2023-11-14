@@ -1,7 +1,7 @@
 <template>
   <div class="mx-10.5 my-8 bg-white px-12 py-8 min-h-200 host-album">
-    <div class="flex flex-wrap gap-12" @click="visible = true">
-      <Card :src="testImg" v-for="item in 10" :key="item" />
+    <div class="flex flex-wrap gap-12">
+      <Card :src="testImg" v-for="item in 10" :key="item" @accept="visible = true" />
     </div>
 
     <SettingModal v-model:visible="visible" />
