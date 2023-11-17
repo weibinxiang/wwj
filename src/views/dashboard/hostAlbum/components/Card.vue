@@ -16,9 +16,15 @@
         >
       </div>
     </div>
-    <div class="bg-[#E5FAE6] rounded-lg h-92 w-60 relative overflow-hidden">
-      <video :src="src" alt="" class="w-full h-full block cursor-pointer object-cover"></video>
-      <div class="flex justify-center absolute bottom-4 w-full left-">
+    <div class="bg-[#E5FAE6] rounded-lg h-92 w-60 relative overflow-hidden relative">
+      <video
+        :src="src"
+        alt=""
+        class="w-full h-full block cursor-pointer object-cover"
+        @click="play"
+      ></video>
+      <PlayIcon class="!w-16 !h-16 !text-3xl" />
+      <div class="flex justify-center absolute bottom-4 w-full left-0">
         <a-button danger class="mr-3 w-25.5 h-12 rounded-xl text-lg font-bold">Reject</a-button>
         <a-button type="primary" class="w-25.5 h-12 rounded-xl text-lg font-bold" @click="accept"
           >Accept</a-button
@@ -30,17 +36,19 @@
 
 <script lang="ts" setup>
   import { createImgPreview } from '/@/components/Preview';
+  import PlayIcon from '../../components/PlayIcon.vue';
 
   defineProps({
     src: {
       type: String,
-      default: '',
+      default: 'https://ttmini.yizhiwechat.com/yitui/duanju/tutorial.mp4',
     },
   });
 
   const emits = defineEmits({
     accept: () => true,
     reject: () => true,
+    play: (url: string) => url,
   });
 
   function preview(img) {
@@ -49,5 +57,9 @@
 
   function accept() {
     emits('accept');
+  }
+
+  function play() {
+    emits('play', 'https://ttmini.yizhiwechat.com/yitui/duanju/tutorial.mp4');
   }
 </script>

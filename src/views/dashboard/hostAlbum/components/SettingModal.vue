@@ -4,15 +4,15 @@
     <div class="flex items-center justify-center gap-4">
       <div
         class="relative w-30 h-40 rounded-2xl overflow-hidden"
-        v-for="(item, index) in form"
-        :key="index"
-        @drop="onDrop"
+        v-for="(item, key) in form"
+        :key="key"
+        @drop="onDrop($event, key)"
         @dragover="(e) => e.preventDefault()"
       >
         <img :src="item" alt="" class="w-full h-full" />
         <div
           class="absolute w-full bottom-0 left-0 h-6 flex items-center justify-center text-white text-xs font-bold bg-[#0084FF]"
-          >{{ index }}</div
+          >{{ key }}</div
         >
       </div>
     </div>
@@ -23,7 +23,7 @@
         <div class="absolute w-full h-full left-0 top-0 mask pointer-events-none"></div>
         <div class="flex gap-4 overflow-x-auto">
           <img
-            :src="testImg"
+            src="https://img0.baidu.com/it/u=530426417,2082848644&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500"
             alt=""
             class="w-30 h-40 rounded-2xl"
             v-for="item in 10"
@@ -41,11 +41,14 @@
         <div class="absolute w-full h-full left-0 top-0 mask pointer-events-none"></div>
         <div class="flex gap-4 overflow-x-auto">
           <video
-            :src="testImg"
+            src="https://ttmini.yizhiwechat.com/yitui/duanju/tutorial.mp4"
             alt=""
             class="w-30 h-40 rounded-2xl"
             v-for="item in 10"
             :key="item"
+            :draggable="true"
+            @dragstart="onDragStart($event, item)"
+            @click="play('https://ttmini.yizhiwechat.com/yitui/duanju/tutorial.mp4')"
           ></video>
         </div>
       </div>
@@ -72,12 +75,13 @@
 
   const emits = defineEmits({
     'update:visible': (val) => val,
+    play: (url: string) => url,
   });
 
   const form = ref({
     Avatar: testImg,
     Cover: testImg,
-    Video: testImg,
+    Video: 'https://ttmini.yizhiwechat.com/yitui/duanju/tutorial.mp4',
   });
 
   function close() {
@@ -85,12 +89,25 @@
     emits('update:visible', false);
   }
 
-  function onDragStart(e, i) {
-    e.dataTransfer.setData('text/plain', i);
+  function onDragStart(e, item) {
+    e.dataTransfer.setData(
+      'text/plain',
+      JSON.stringify({
+        value:
+          'https://img0.baidu.com/it/u=530426417,2082848644&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500',
+        id: item,
+      }),
+    );
   }
 
-  function onDrop(e) {
-    console.log(e, e.dataTransfer.getData('text/plain'));
+  function onDrop(e, key) {
+    const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+    form.value[key] = data.value;
+    console.log(e, JSON.parse(e.dataTransfer.getData('text/plain')));
+  }
+
+  function play(url) {
+    emits('play', url);
   }
 </script>
 
