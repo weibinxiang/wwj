@@ -21,17 +21,18 @@
       <div class="transform -rotate-90 w-min font-bold text-lg">Album</div>
       <div class="flex-1 overflow-hidden relative">
         <div class="absolute w-full h-full left-0 top-0 mask pointer-events-none"></div>
-        <div class="flex gap-4 overflow-x-auto">
-          <img
-            src="https://img0.baidu.com/it/u=530426417,2082848644&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500"
-            alt=""
-            class="w-30 h-40 rounded-2xl"
-            v-for="item in 10"
-            :key="item"
-            :draggable="true"
-            @dragstart="onDragStart($event, item)"
-          />
-        </div>
+        <TouchScroll class="gap-4">
+          <div v-for="item in 10" :key="item">
+            <img
+              src="https://img0.baidu.com/it/u=530426417,2082848644&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500"
+              alt=""
+              class="w-30 h-40 rounded-2xl"
+              :draggable="true"
+              @dragstart.stop="onDragStart($event, item)"
+            />
+            {{ item }}
+          </div>
+        </TouchScroll>
       </div>
     </div>
 
@@ -39,7 +40,7 @@
       <div class="transform -rotate-90 w-min font-bold text-lg">Story</div>
       <div class="flex-1 overflow-hidden relative">
         <div class="absolute w-full h-full left-0 top-0 mask pointer-events-none"></div>
-        <div class="flex gap-4 overflow-x-auto">
+        <TouchScroll class="gap-4">
           <video
             src="https://ttmini.yizhiwechat.com/yitui/duanju/tutorial.mp4"
             alt=""
@@ -50,7 +51,7 @@
             @dragstart="onDragStart($event, item)"
             @click="play('https://ttmini.yizhiwechat.com/yitui/duanju/tutorial.mp4')"
           ></video>
-        </div>
+        </TouchScroll>
       </div>
     </div>
 
@@ -65,6 +66,7 @@
   import { ref } from 'vue';
   import { Modal } from 'ant-design-vue';
   import testImg from '/@/assets/images/test.png';
+  import TouchScroll from './TouchScroll.vue';
 
   defineProps({
     visible: {

@@ -9,10 +9,12 @@
     >
       <div class="text-xl fon-bold">{{ item.title }}</div>
       <div
-        class="text-4xl fon-bold text-[#0084FF] mt-2 mb-1"
+        class="text-4xl fon-bold text-[#0084FF] mt-2 mb-1 flex justify-center"
         :class="{ '!text-white ': active === index }"
-        >{{ item.number }}</div
       >
+        <CountTo :startVal="0" :endVal="item.number" :duration="1000" />
+        <div class="w-2.5 h-2.5 rounded-full bg-#F00"></div>
+      </div>
       <div class="">{{ item.status }}</div>
     </div>
   </div>
@@ -20,6 +22,7 @@
 
 <script lang="ts" setup>
   import { CloumnEnum } from '../typing';
+  import { CountTo } from '/@/components/CountTo/index';
 
   defineProps({
     active: {

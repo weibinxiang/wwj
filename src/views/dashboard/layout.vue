@@ -94,7 +94,7 @@
 </script>
 
 <style lang="less">
-  :where(.css-dev-only-do-not-override-7wmxui).ant-btn-default.ant-btn-dangerous {
+  .ant-btn-default.ant-btn-dangerous {
     border: 1px solid rgb(0 0 0 / 20%) !important;
   }
 </style>

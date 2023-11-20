@@ -121,24 +121,14 @@
 </script>
 
 <style lang="less">
-  :where(.css-dev-only-do-not-override-7wmxui).ant-btn-primary.ant-btn-dangerous {
+  .ant-btn-primary.ant-btn-dangerous {
     background-color: #fa4a82 !important;
   }
 
-  :where(.css-dev-only-do-not-override-7wmxui).ant-descriptions.ant-descriptions-bordered
-    .ant-descriptions-view,
-  :where(.css-dev-only-do-not-override-7wmxui).ant-descriptions.ant-descriptions-bordered
-    .ant-descriptions-item-label,
-  :where(.css-dev-only-do-not-override-7wmxui).ant-descriptions.ant-descriptions-bordered
-    .ant-descriptions-item-content,
-  :where(.css-dev-only-do-not-override-7wmxui).ant-descriptions.ant-descriptions-bordered
-    .ant-descriptions-row {
-    border-color: #fff;
-  }
-
-  :where(.css-dev-only-do-not-override-7wmxui).ant-descriptions.ant-descriptions-bordered
-    .ant-descriptions-item-label {
-    background: rgb(0 0 0 / 10%);
+  .ant-descriptions-view,
+  .ant-descriptions-item-content,
+  .ant-descriptions-row {
+    border-color: #fff !important;
   }
 
   .ant-descriptions-item-content {
@@ -149,6 +139,8 @@
   .ant-descriptions-item-label {
     @apply !py-7 !px-6;
 
+    border-color: #fff !important;
+    background: rgb(0 0 0 / 10%) !important;
     text-align: center !important;
 
     span {
