@@ -19,7 +19,9 @@
         />
         <div>
           <div>Andy Lau</div>
-          <div class="text-black text-opacity-50 mt-2 cursor-pointer">Log out</div>
+          <div class="text-black text-opacity-50 mt-2 cursor-pointer" @click="handleLoginOut"
+            >Log out</div
+          >
         </div>
       </div>
     </div>
@@ -32,8 +34,10 @@
   import { CloumnEnum } from './typing';
   import ColumnCard from './column/index.vue';
   import { useRouter } from 'vue-router';
+  import { useUserStore } from '/@/store/modules/user';
   import PageLayout from '/@/layouts/page/index.vue';
 
+  const UserStore = useUserStore();
   const column = ref([
     {
       title: 'Host Certification',
@@ -90,6 +94,10 @@
     router.push({
       name: item.pathName,
     });
+  }
+
+  function handleLoginOut() {
+    UserStore.confirmLoginOut();
   }
 </script>
 

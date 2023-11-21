@@ -150,6 +150,8 @@ export interface GlobConfig {
   shortName: string;
   // webSocket interface url
   webSocketUrl: string;
+
+  publicKey: string;
 }
 export interface GlobEnvConfig {
   // Site title
@@ -162,4 +164,5 @@ export interface GlobEnvConfig {
   VITE_GLOB_UPLOAD_URL?: string;
   // webSocket interface url
   VITE_GLOB_WEBSOCKET_URL: string;
+  VITE_PUBLIC_KEY: string;
 }

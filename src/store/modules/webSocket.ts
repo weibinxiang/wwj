@@ -3,10 +3,8 @@ import { defineStore } from 'pinia';
 import { useWebSocket } from '@vueuse/core';
 import { store } from '/@/store';
 import { useGlobSetting } from '/@/hooks/setting';
-// import SnowflakeId from 'snowflake-id';
 import { useUserStore } from './user';
 import { message } from 'ant-design-vue';
-// import { useStagingStore } from './staging';
 
 enum MessageType {
   /** 登录路由 */
@@ -28,10 +26,19 @@ export enum SocketCodeEnum {
   OtherLogin = 507,
 }
 
+export enum Basickey {
+  HostCertification = 'host_certification',
+  HostAlbum = 'host_album',
+  UserAlbum = 'user_album',
+  TextContent = 'text_content',
+  Feedback = 'feedback',
+}
+
 export const useWebSocketStore = defineStore('webSocket', () => {
   const { webSocketUrl } = useGlobSetting();
   const UserStore = useUserStore();
-  // const StagingStore = useStagingStore();
+  const basicData = ref<Partial<Record<Basickey, number>>>({});
+
   const logining = ref(false);
 
   const { status, data, ws, send, close, open } = useWebSocket(webSocketUrl, {
@@ -95,26 +102,17 @@ export const useWebSocketStore = defineStore('webSocket', () => {
     },
   );
 
-  /** 消息体唯一标识 */
-  function buildUid() {
-    // const id = new SnowflakeId();
-    // return +id.generate();
-    return '';
-  }
-
   async function sendMsg(params, type: MessageType = MessageType.sendMessage) {
     if (status.value === 'CLOSED') {
       close();
       open();
     }
-    const uid = params?.uid || buildUid();
     delete params?.uid;
-    const msg = JSON.stringify({ params, router: type, message_id: uid });
+    const msg = JSON.stringify({ params, router: type });
     send(msg);
-    return { uid };
   }
 
-  return { status, data, ws, sendMsg, close, open, MessageType, buildUid };
+  return { status, data, ws, sendMsg, close, open, MessageType, basicData };
 });
 
 export function useWebSocketStoreWithOut() {

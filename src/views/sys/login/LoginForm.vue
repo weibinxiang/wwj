@@ -100,6 +100,8 @@
   import { useUserStore } from '/@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { useGlobSetting } from '/@/hooks/setting';
+  import JSEncrypt from 'jsencrypt';
   //import { onKeyStroke } from '@vueuse/core';
 
   const FormItem = Form.Item;
@@ -108,6 +110,11 @@
   const { notification, createErrorModal } = useMessage();
   const { prefixCls } = useDesign('login');
   const userStore = useUserStore();
+
+  const { publicKey } = useGlobSetting();
+  const encrypt = new JSEncrypt();
+  encrypt.setPublicKey(publicKey);
+  console.log(publicKey);
 
   const { getLoginState } = useLoginState();
   const { getFormRules } = useFormRules();
@@ -131,6 +138,8 @@
     if (!data) return;
     try {
       loading.value = true;
+      const password = encrypt.encrypt(data.password);
+      console.log('password', password);
       const userInfo = await userStore.login({
         password: data.password,
         username: data.account,

@@ -9,6 +9,7 @@ export const useGlobSetting = (): Readonly<GlobConfig> => {
     VITE_GLOB_API_URL_PREFIX,
     VITE_GLOB_UPLOAD_URL,
     VITE_GLOB_WEBSOCKET_URL,
+    VITE_PUBLIC_KEY,
   } = getAppEnvConfig();
 
   // Take global configuration
@@ -19,6 +20,7 @@ export const useGlobSetting = (): Readonly<GlobConfig> => {
     urlPrefix: VITE_GLOB_API_URL_PREFIX,
     uploadUrl: VITE_GLOB_UPLOAD_URL,
     webSocketUrl: VITE_GLOB_WEBSOCKET_URL,
+    publicKey: VITE_PUBLIC_KEY,
   };
   return glob as Readonly<GlobConfig>;
 };
