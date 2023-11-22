@@ -19,11 +19,8 @@ enum MessageType {
 
 export enum SocketCodeEnum {
   /** 正常 */
-  success = 200,
+  success = 1,
   /** 请先登录 */
-  needLogin = 500,
-  /** 已在别处登陆 */
-  OtherLogin = 507,
 }
 
 export enum Basickey {
@@ -32,14 +29,13 @@ export enum Basickey {
   UserAlbum = 'user_album',
   TextContent = 'text_content',
   Feedback = 'feedback',
+  OnlineService = 'online_service',
 }
 
 export const useWebSocketStore = defineStore('webSocket', () => {
   const { webSocketUrl } = useGlobSetting();
   const UserStore = useUserStore();
-  const basicData = ref<Partial<Record<Basickey, number>>>({});
-
-  const logining = ref(false);
+  const callbackArr = ref<Partial<Record<Basickey, (val: number) => void>>>({});
 
   const { status, data, ws, send, close, open } = useWebSocket(webSocketUrl, {
     autoReconnect: {
@@ -50,39 +46,22 @@ export const useWebSocketStore = defineStore('webSocket', () => {
       },
     },
     heartbeat: {
-      message: 'HeartBeat',
+      message: JSON.stringify({ type: 'ping' }),
       interval: 15000,
       pongTimeout: 5000,
     },
+    protocols: [UserStore.getToken],
   });
 
   watch(data, () => {
     if (data.value) {
       try {
-        const { code, msg, router } = JSON.parse(data.value);
-        switch (code) {
+        const { status, message: msg, type, data: res } = JSON.parse(data.value);
+        switch (status) {
           case SocketCodeEnum.success:
-            // if (router === MessageType.sendMessage) {
-            //   StagingStore.refreshSendStatus({ data: res, message_id });
-            // } else if (router === MessageType.newMessage) {
-            //   StagingStore.receiveMessages({ data: res, message_id });
-            // } else if (router === MessageType.login) {
-            //   logining.value = false;
-            // }
-            break;
-          case SocketCodeEnum.OtherLogin:
-            console.log('close', status.value);
-            UserStore.logout(true);
-            message.error(msg);
-
-            break;
-          case SocketCodeEnum.needLogin:
-            sendMsg({ token: UserStore.getToken }, MessageType.login);
+            callbackArr.value?.[type]?.(res);
             break;
           default:
-            if (router === MessageType.sendMessage) {
-              // StagingStore.refreshSendStatus({ data: res, message_id });
-            }
             message.error(msg);
         }
       } catch (error) {
@@ -91,28 +70,18 @@ export const useWebSocketStore = defineStore('webSocket', () => {
     }
   });
 
-  watch(
-    () => status.value,
-    () => {
-      console.log('websock status', status.value, new Date());
-      if (status.value === 'OPEN' && UserStore.getToken && !logining.value) {
-        logining.value = true;
-        sendMsg({ token: UserStore.getToken }, MessageType.login);
-      }
-    },
-  );
-
-  async function sendMsg(params, type: MessageType = MessageType.sendMessage) {
+  function sendMsg(params: { type: Basickey }, callback) {
     if (status.value === 'CLOSED') {
-      close();
       open();
+      close();
     }
-    delete params?.uid;
-    const msg = JSON.stringify({ params, router: type });
+    callbackArr.value[params.type] = callback;
+
+    const msg = JSON.stringify(params);
     send(msg);
   }
 
-  return { status, data, ws, sendMsg, close, open, MessageType, basicData };
+  return { status, data, ws, sendMsg, close, open, MessageType };
 });
 
 export function useWebSocketStoreWithOut() {

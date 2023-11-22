@@ -13,12 +13,12 @@
       </div>
       <div class="flex items-center text-center">
         <img
-          src="/src/assets/images/bser-user.png"
+          :src="UserStore.getUserInfo.avatar"
           alt=""
           class="w-14 h-14 rounded-full object-cover mr-4"
         />
         <div>
-          <div>Andy Lau</div>
+          <div>{{ UserStore.getUserInfo.nickname }}</div>
           <div class="text-black text-opacity-50 mt-2 cursor-pointer" @click="handleLoginOut"
             >Log out</div
           >
@@ -30,67 +30,73 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref } from 'vue';
-  import { CloumnEnum } from './typing';
+  import { ref, nextTick } from 'vue';
   import ColumnCard from './column/index.vue';
   import { useRouter } from 'vue-router';
   import { useUserStore } from '/@/store/modules/user';
+  import { useWebSocketStore, Basickey } from '/@/store/modules/webSocket';
   import PageLayout from '/@/layouts/page/index.vue';
 
   const UserStore = useUserStore();
-  const column = ref([
-    {
+  const { sendMsg } = useWebSocketStore();
+  const column = ref({
+    [Basickey.HostCertification]: {
       title: 'Host Certification',
       number: 689,
       new: false,
       status: 'pending',
       pathName: 'Certification',
     },
-    {
+    [Basickey.HostAlbum]: {
       title: 'Host Album & Story',
       number: 9085,
       new: false,
       status: 'pending',
       pathName: 'HostAlbum',
     },
-    {
+    [Basickey.UserAlbum]: {
       title: 'User Album & Story',
       number: 7,
       new: false,
       status: 'pending',
       pathName: 'UserAlbum',
     },
-    {
+    [Basickey.TextContent]: {
       title: 'Text Content',
       number: 42,
       new: false,
       status: 'pending',
       pathName: 'TextContent',
     },
-    {
+    [Basickey.Feedback]: {
       title: 'Feedback',
       number: 689,
       new: false,
       status: 'pending',
       pathName: 'Feedback',
     },
-    {
+    [Basickey.OnlineService]: {
       title: 'Online Service',
       number: 689,
       new: false,
       status: 'pending',
       pathName: 'Service',
     },
-  ]);
+  });
+
+  nextTick(() => {
+    sendMsg({ type: Basickey.HostCertification }, (data) => {
+      console.log(data);
+    });
+  });
+
   const router = useRouter();
-  const active = ref(
-    column.value.findIndex((item) => item.pathName === router.currentRoute.value.name) ||
-      CloumnEnum.first,
+  const active = ref<string>(
+    (router.currentRoute.value.name as string) || column.value[Basickey.HostCertification].pathName,
   );
 
-  function handleCloumnChange(item, index) {
-    console.log(router.currentRoute.value.name);
-    active.value = index;
+  function handleCloumnChange(item) {
+    active.value = item.pathName;
     router.push({
       name: item.pathName,
     });

@@ -123,7 +123,7 @@
   const loading = ref(false);
 
   const formData = reactive({
-    account: 'vben',
+    account: 'sheldon',
     password: '123456',
   });
 
@@ -141,8 +141,8 @@
       const password = encrypt.encrypt(data.password);
       console.log('password', password);
       const userInfo = await userStore.login({
-        password: data.password,
-        username: data.account,
+        password: password as string,
+        account: data.account,
         mode: 'none', //不要默认的错误提示
       });
       if (userInfo) {

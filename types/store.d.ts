@@ -37,11 +37,12 @@ export interface ErrorLogInfo {
 
 export interface UserInfo {
   userId: string | number;
-  username: string;
+  nickname: string;
   realName: string;
   avatar: string;
   desc?: string;
   homePath?: string;
+  account: string;
   roles: RoleInfo[];
 }
 
