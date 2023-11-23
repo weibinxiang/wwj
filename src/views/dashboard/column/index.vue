@@ -12,8 +12,8 @@
         class="text-4xl fon-bold text-[#0084FF] mt-2 mb-1 flex justify-center"
         :class="{ '!text-white ': active === item.pathName }"
       >
-        <CountTo :startVal="0" :endVal="item.number" :duration="1000" />
-        <div class="w-2.5 h-2.5 rounded-full bg-#F00"></div>
+        <CountTo :startVal="0" :endVal="item.count" :duration="1000" />
+        <div class="w-2.5 h-2.5 rounded-full bg-#F00" v-if="item.new"></div>
       </div>
       <div class="">{{ item.status }}</div>
     </div>

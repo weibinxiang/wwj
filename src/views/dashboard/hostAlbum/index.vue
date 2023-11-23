@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-10.5 my-8 bg-white px-12 py-8 min-h-200 host-album">
+  <div class="mx-10.5 my-8 bg-white px-12 py-8 min-h-200 host-album rounded-xl">
     <div class="flex flex-wrap gap-12">
       <Card
         :src="testImg"

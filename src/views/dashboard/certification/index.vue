@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-10 my-11 bg-white rounded-lg flex">
+  <div class="mx-10 my-11 bg-white rounded-xl flex">
     <div class="p-6">
       <div
         class="relative w-60 rounded-lg flex flex-col items-center justify-center pt-6 pb-7 bg-[#FA4A820D] mb-6 cursor-pointer last:mb-0"

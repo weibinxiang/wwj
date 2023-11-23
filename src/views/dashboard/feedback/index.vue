@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-10.5 my-9 bg-white px-10 py-7 min-h-200">
+  <div class="mx-10.5 my-9 bg-white px-10 py-7 min-h-200 rounded-xl">
     <BasicTable @register="registerTable">
       <template #attachment>
         <div class="flex items-center justify-center px-10 gap-4">
