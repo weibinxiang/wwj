@@ -2,10 +2,10 @@
   <div class="rounded-lg bg-[#F2F9FF] p-4 flex items-center">
     <div class="bg-[#F8F9EA] rounded-lg mr-6.5 h-92 w-60 overflow-hidden relative">
       <img
-        :src="src"
+        :src="item.certification_album_url"
         alt=""
         class="w-full h-full block cursor-pointer object-cover"
-        @click="preview(src)"
+        @click="preview(item.certification_album_url)"
       />
       <div class="flex items-center justify-center absolute bottom-7 w-full left-0">
         <img class="w-6 mr-2" src="/src/assets/images/content/icon-success.png" />
@@ -16,12 +16,14 @@
         >
       </div>
     </div>
-    <div class="bg-[#E5FAE6] rounded-lg h-92 w-60 relative overflow-hidden relative">
+    <div
+      class="bg-[#E5FAE6] rounded-lg h-92 w-60 relative overflow-hidden relative"
+      @click="play(item.media_url)"
+    >
       <video
-        :src="src"
+        :src="item.media_url"
         alt=""
         class="w-full h-full block cursor-pointer object-cover"
-        @click="play"
       ></video>
       <PlayIcon class="!w-16 !h-16 !text-3xl" />
       <div class="flex justify-center absolute bottom-4 w-full left-0">
@@ -39,9 +41,9 @@
   import PlayIcon from '../../components/PlayIcon.vue';
 
   defineProps({
-    src: {
-      type: String,
-      default: 'https://ttmini.yizhiwechat.com/yitui/duanju/tutorial.mp4',
+    item: {
+      type: Object,
+      default: () => ({}),
     },
   });
 
@@ -59,7 +61,7 @@
     emits('accept');
   }
 
-  function play() {
-    emits('play', 'https://ttmini.yizhiwechat.com/yitui/duanju/tutorial.mp4');
+  function play(url) {
+    emits('play', url);
   }
 </script>

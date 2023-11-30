@@ -12,7 +12,7 @@
       :src="url"
       controls
       autoplay
-      class="object-contain absolute left-0 top-0 transform -translate-x-1/2 -translate-y-1/2 w-60vw"
+      class="object-contain absolute left-0 top-0 transform -translate-x-1/2 -translate-y-1/2 w-60vw max-h-screen"
     ></video>
   </Modal>
 </template>

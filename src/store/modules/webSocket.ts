@@ -30,6 +30,7 @@ export enum Basickey {
   TextContent = 'text_content',
   Feedback = 'feedback',
   OnlineService = 'online_service',
+  TopCount = 'top_count',
 }
 
 export const useWebSocketStore = defineStore('webSocket', () => {
@@ -81,7 +82,11 @@ export const useWebSocketStore = defineStore('webSocket', () => {
     send(msg);
   }
 
-  return { status, data, ws, sendMsg, close, open, MessageType };
+  function setTypeCallback({ type, callback }) {
+    callbackArr.value[type] = callback;
+  }
+
+  return { status, data, ws, sendMsg, close, open, MessageType, setTypeCallback };
 });
 
 export function useWebSocketStoreWithOut() {

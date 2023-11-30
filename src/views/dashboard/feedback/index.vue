@@ -1,15 +1,15 @@
 <template>
   <div class="mx-10.5 my-9 bg-white px-10 py-7 min-h-200 rounded-xl">
     <BasicTable @register="registerTable">
-      <template #attachment>
+      <template #attachment="{ record }">
         <div class="flex items-center justify-center px-10 gap-4">
           <img
-            src="/src/assets/images/test.png"
+            :src="img"
             alt=""
             class="w-12 h-12 rounded-lg object-cover cursor-pointer"
-            v-for="item in 3"
-            :key="item"
-            @click="preview(testImg)"
+            v-for="(img, index) in record.attachment"
+            :key="index"
+            @click="preview(img)"
           />
         </div>
       </template>
@@ -25,22 +25,22 @@
 <script setup lang="ts">
   import { createImgPreview } from '/@/components/Preview';
   import { BasicTable, useTable, BasicColumn } from '/@/components/Table';
-  import testImg from '/@/assets/images/test.png';
+  import { getFeedback } from '/@/api/dashboard';
 
   const tableColumns: BasicColumn[] = [
     {
       title: 'Feedback ID',
-      dataIndex: 'type',
+      dataIndex: 'operation_account_id',
       width: 230,
     },
     {
       title: 'User ID',
       width: 180,
-      dataIndex: 'avatar',
+      dataIndex: 'uid',
     },
     {
       title: 'Feedback Content',
-      dataIndex: 'avatar',
+      dataIndex: 'content',
     },
     {
       title: 'Attachment',
@@ -52,8 +52,8 @@
 
   const [registerTable] = useTable({
     showIndexColumn: false,
-    dataSource: [{ avatar: '123895462' }, { avatar: '123895462' }],
     columns: tableColumns,
+    api: getFeedback,
     actionColumn: {
       title: 'Action',
       dataIndex: 'action',

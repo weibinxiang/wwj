@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-[#F7F7F7] min-h-screen text-[#273C62]">
-    <div class="fixed left-0 top-0 w-full z-50">
+  <div class="bg-[#F7F7F7] h-screen text-[#273C62] flex flex-col">
+    <div class="flex-shrink-0">
       <div
         class="flex justify-between items-center h-25 pl-10.5 pr-14 bg-white"
         style="box-shadow: 0 2px 0 0 rgb(0 0 0 / 5%)"
@@ -28,7 +28,7 @@
       </div>
       <ColumnCard v-model:active="active" :column="column" @change="handleCloumnChange" />
     </div>
-    <div class="pt-71.5">
+    <div class="flex-1 overflow-y-auto">
       <PageLayout />
     </div>
   </div>
@@ -42,67 +42,75 @@
   import PageLayout from '/@/layouts/page/index.vue';
 
   const UserStore = useUserStore();
-  const { sendMsg } = useWebSocketStore();
+  const { setTypeCallback } = useWebSocketStore();
   const column = ref({
     [Basickey.HostCertification]: {
       title: 'Host Certification',
-      count: 689,
+      count: 0,
       new: false,
       status: 'pending',
       pathName: 'Certification',
-      list: [],
     },
     [Basickey.HostAlbum]: {
       title: 'Host Album & Story',
-      count: 9085,
+      count: 0,
       new: false,
       status: 'pending',
       pathName: 'HostAlbum',
-      list: [],
     },
     [Basickey.UserAlbum]: {
       title: 'User Album & Story',
-      count: 7,
+      count: 0,
       new: false,
       status: 'pending',
       pathName: 'UserAlbum',
-      list: [],
     },
     [Basickey.TextContent]: {
       title: 'Text Content',
-      count: 42,
+      count: 0,
       new: false,
       status: 'pending',
       pathName: 'TextContent',
-      list: [],
     },
     [Basickey.Feedback]: {
       title: 'Feedback',
-      count: 689,
+      count: 0,
       new: false,
       status: 'pending',
       pathName: 'Feedback',
-      list: [],
     },
     [Basickey.OnlineService]: {
       title: 'Online Service',
-      count: 689,
+      count: 0,
       new: false,
       status: 'pending',
       pathName: 'Service',
-      list: [],
     },
   });
 
-  for (const key in column.value) {
-    if (key !== Basickey.OnlineService) {
-      sendMsg({ type: key as Basickey }, (data) => {
-        column.value[key].count = data.count;
-        column.value[key].list = data.list;
-        column.value[key].new = true;
-      });
-    }
-  }
+  // for (const key in column.value) {
+  //   if (key !== Basickey.OnlineService) {
+  //     sendMsg({ type: key as Basickey }, (data) => {
+  //       column.value[key].count = data.count;
+  //       column.value[key].list = data.list;
+  //       if (column.value[key].count && column.value[key].count != data.count) {
+  //         column.value[key].new = true;
+  //       }
+  //     });
+  //   }
+  // }
+  setTypeCallback({
+    type: Basickey.TopCount,
+    callback: (data) => {
+      for (const key in data) {
+        const k = key.split('_count')[0];
+        if (column.value[k].count && column.value[k].count != data[key]) {
+          column.value[k].new = true;
+        }
+        column.value[k].count = data[key];
+      }
+    },
+  });
 
   const router = useRouter();
   const active = ref<string>(
