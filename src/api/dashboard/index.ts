@@ -6,8 +6,8 @@ export function getTextContent() {
 }
 
 /** 操作文本内容 */
-export function putTextContent(data) {
-  return defHttp.post({ url: '/v1/text_content/put', data });
+export function putTextContent(data: { id: number; is_accept: string }) {
+  return defHttp.put({ url: '/v1/text_content/put', data });
 }
 
 /** 获取工单列表 */
@@ -16,6 +16,6 @@ export function getFeedback() {
 }
 
 /** 操作文本内容 */
-export function putFeedback() {
-  return defHttp.get({ url: '/v1/text_content/put' });
+export function putFeedback(data: { id: number; reply_content: string }) {
+  return defHttp.put({ url: '/v1/feedback/put', data });
 }

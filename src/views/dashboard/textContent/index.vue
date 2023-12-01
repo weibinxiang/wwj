@@ -5,10 +5,34 @@
         <div class="text-[#FA4A82] font-bold" v-if="!record.is_user">Host</div>
         <div class="font-bold" v-else>User</div>
       </template>
-      <template #action>
+      <template #action="{ record }">
         <div class="flex items-center justify-center">
-          <a-button danger class="mr-3 w-32 h-12 rounded-lg text-lg font-bold">Reject</a-button>
-          <a-button type="primary" class="w-32 h-12 rounded-lg text-lg font-bold">Accept</a-button>
+          <Popconfirm
+            title="Are you sure reject this?"
+            ok-text="Yes"
+            cancel-text="No"
+            @confirm="handleExamine(false, record)"
+          >
+            <a-button
+              danger
+              class="mr-3 w-32 h-12 rounded-lg text-lg font-bold"
+              :loading="record.loading"
+              >Reject</a-button
+            >
+          </Popconfirm>
+          <Popconfirm
+            title="Are you sure accept this?"
+            ok-text="Yes"
+            cancel-text="No"
+            @confirm="handleExamine(true, record)"
+          >
+            <a-button
+              type="primary"
+              class="w-32 h-12 rounded-lg text-lg font-bold"
+              :loading="record.loading"
+              >Accept</a-button
+            >
+          </Popconfirm>
         </div>
       </template>
     </BasicTable>
@@ -16,8 +40,9 @@
 </template>
 
 <script setup lang="ts">
+  import { Popconfirm } from 'ant-design-vue';
   import { BasicTable, useTable, BasicColumn } from '/@/components/Table';
-  import { getTextContent } from '/@/api/dashboard';
+  import { getTextContent, putTextContent } from '/@/api/dashboard';
 
   const tableColumns: BasicColumn[] = [
     {
@@ -47,7 +72,7 @@
     },
   ];
 
-  const [registerTable] = useTable({
+  const [registerTable, { reload }] = useTable({
     showIndexColumn: false,
     dataSource: [{ avatar: '123895462' }, { avatar: '123895462' }],
     columns: tableColumns,
@@ -60,4 +85,15 @@
       slots: { customRender: 'action' },
     },
   });
+
+  function handleExamine(is_accept, record) {
+    record.loading = true;
+    putTextContent({ id: record.id, is_accept: String(is_accept) })
+      .then(() => {
+        reload();
+      })
+      .finally(() => {
+        record.loading = false;
+      });
+  }
 </script>

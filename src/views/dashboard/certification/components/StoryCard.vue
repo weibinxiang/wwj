@@ -1,6 +1,10 @@
 <template>
   <div class="relative h-max" @click="play(src)">
-    <view :src="src" alt="" class="w-75 h-100 rounded-lg block cursor-pointer object-cover" />
+    <video
+      :src="src"
+      alt=""
+      class="w-75 h-100 rounded-lg block cursor-pointer object-cover"
+    ></video>
     <PlayIcon class="!w-16 !h-16 !text-3xl" />
 
     <div class="absolute bottom-4 w-full left-0 text-center">
