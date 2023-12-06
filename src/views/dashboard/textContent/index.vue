@@ -40,9 +40,20 @@
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue';
   import { Popconfirm } from 'ant-design-vue';
   import { BasicTable, useTable, BasicColumn } from '/@/components/Table';
-  import { getTextContent, putTextContent } from '/@/api/dashboard';
+  // import { putTextContent } from '/@/api/dashboard';
+  import { useWebSocketStore, Basickey } from '/@/store/modules/webSocket';
+
+  const { sendMsg } = useWebSocketStore();
+  const loading = ref(true);
+  const list = ref<any[]>([]);
+
+  sendMsg({ type: Basickey.TextContent }, ({ data }) => {
+    list.value = list.value.concat(data.list);
+    loading.value = false;
+  });
 
   const tableColumns: BasicColumn[] = [
     {
@@ -72,12 +83,13 @@
     },
   ];
 
-  const [registerTable, { reload }] = useTable({
+  const [registerTable, { deleteTableDataRecord }] = useTable({
+    rowKey: 'id',
     showIndexColumn: false,
-    dataSource: [{ avatar: '123895462' }, { avatar: '123895462' }],
     columns: tableColumns,
-    api: getTextContent,
+    dataSource: list,
     pagination: false,
+    loading: loading,
     actionColumn: {
       title: 'Action',
       dataIndex: 'action',
@@ -88,12 +100,10 @@
 
   function handleExamine(is_accept, record) {
     record.loading = true;
-    putTextContent({ id: record.id, is_accept: String(is_accept) })
-      .then(() => {
-        reload();
-      })
-      .finally(() => {
-        record.loading = false;
-      });
+    sendMsg({ type: Basickey.PUT, data: { ids: [record.id], is_accept } }, (res) => {
+      list.value = list.value.concat(res.list);
+      deleteTableDataRecord(record.id);
+      record.loading = false;
+    });
   }
 </script>

@@ -79,13 +79,13 @@
       status: 'pending',
       pathName: 'Feedback',
     },
-    [Basickey.OnlineService]: {
-      title: 'Online Service',
-      count: 0,
-      new: false,
-      status: 'pending',
-      pathName: 'Service',
-    },
+    // [Basickey.OnlineService]: {
+    //   title: 'Online Service',
+    //   count: 0,
+    //   new: false,
+    //   status: 'pending',
+    //   pathName: 'Service',
+    // },
   });
 
   // for (const key in column.value) {
@@ -101,7 +101,7 @@
   // }
   setTypeCallback({
     type: Basickey.TopCount,
-    callback: (data) => {
+    callback: ({ data }) => {
       for (const key in data) {
         const k = key.split('_count')[0];
         if (column.value[k].count && column.value[k].count != data[key]) {

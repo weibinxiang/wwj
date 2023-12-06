@@ -9,6 +9,9 @@
         @play="videoPlay"
       />
     </div>
+    <div v-if="!list.length" class="flex justify-center items-center w-full h-full">
+      <Empty />
+    </div>
 
     <SettingModal v-model:visible="visible" @play="videoPlay" />
 
@@ -22,18 +25,16 @@
   import SettingModal from './components/SettingModal.vue';
   import VideoPreviewModal from '../components/VideoPreviewModal.vue';
   import { useWebSocketStore, Basickey } from '/@/store/modules/webSocket';
+  import { Empty } from 'ant-design-vue';
 
   const visible = ref(false);
   const list = ref<any[]>([]);
-  const { setTypeCallback } = useWebSocketStore();
+  const { sendMsg } = useWebSocketStore();
   const VideoPreviewRef = ref<typeof VideoPreviewModal>();
 
-  setTypeCallback({
-    type: Basickey.HostAlbum,
-    callback: (res) => {
-      console.log(res);
-      list.value = res.list;
-    },
+  sendMsg({ type: Basickey.HostAlbum }, ({ data }) => {
+    console.log(data);
+    list.value = data.list;
   });
 
   function videoPlay(url) {
