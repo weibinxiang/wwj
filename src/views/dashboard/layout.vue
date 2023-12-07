@@ -104,8 +104,9 @@
     callback: ({ data }) => {
       for (const key in data) {
         const k = key.split('_count')[0];
-        if (column.value[k].count && column.value[k].count != data[key]) {
+        if (column.value[k].count < data[key]) {
           column.value[k].new = true;
+          console.log(k, column.value[k].new);
         }
         column.value[k].count = data[key];
       }

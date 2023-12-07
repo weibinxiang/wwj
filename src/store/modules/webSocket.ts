@@ -6,6 +6,7 @@ import { useGlobSetting } from '/@/hooks/setting';
 import { useUserStore } from './user';
 import { message } from 'ant-design-vue';
 import { buildUUID } from '/@/utils/uuid';
+import { useMessage } from '/@/hooks/web/useMessage';
 
 enum MessageType {
   /** 登录路由 */
@@ -39,6 +40,8 @@ export const useWebSocketStore = defineStore('webSocket', () => {
   // const init = ref(false);
   const { webSocketUrl } = useGlobSetting();
   const UserStore = useUserStore();
+  const { notification } = useMessage();
+
   const callbackArr = ref<Partial<Record<Basickey, (val: any) => void>>>({});
   const waitResQueue = ref<Partial<Record<number, (val: any) => void>>>({});
 
@@ -66,6 +69,14 @@ export const useWebSocketStore = defineStore('webSocket', () => {
         if (type === Basickey.PUT) {
           waitResQueue.value[res.key]?.(result);
           delete waitResQueue.value[res.key];
+        } else if (type === 'system') {
+          if (res.content) {
+            notification.info({
+              message: '系统通知',
+              description: res.content,
+              duration: 5,
+            });
+          }
         } else {
           callbackArr.value?.[type]?.(result);
         }

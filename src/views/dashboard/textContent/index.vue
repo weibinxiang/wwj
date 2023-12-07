@@ -2,7 +2,7 @@
   <div class="mx-10.5 my-9 bg-white px-10 py-7 min-h-200 rounded-xl">
     <BasicTable @register="registerTable">
       <template #type="{ record }">
-        <div class="text-[#FA4A82] font-bold" v-if="!record.is_user">Host</div>
+        <div class="text-[#FA4A82] font-bold" v-if="!record?.is_user">Host</div>
         <div class="font-bold" v-else>User</div>
       </template>
       <template #action="{ record }">
@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { Popconfirm } from 'ant-design-vue';
+  import { Popconfirm, message } from 'ant-design-vue';
   import { BasicTable, useTable, BasicColumn } from '/@/components/Table';
   // import { putTextContent } from '/@/api/dashboard';
   import { useWebSocketStore, Basickey } from '/@/store/modules/webSocket';
@@ -100,9 +100,11 @@
 
   function handleExamine(is_accept, record) {
     record.loading = true;
-    sendMsg({ type: Basickey.PUT, data: { ids: [record.id], is_accept } }, (res) => {
-      list.value = list.value.concat(res.list);
-      deleteTableDataRecord(record.id);
+    sendMsg({ type: Basickey.PUT, data: { ids: [record.id], is_accept } }, ({ status }) => {
+      if (status) {
+        deleteTableDataRecord(record.id);
+        message.success('Successful operation');
+      }
       record.loading = false;
     });
   }

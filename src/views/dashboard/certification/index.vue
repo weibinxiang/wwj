@@ -12,7 +12,7 @@
           <img
             src="/src/assets/images/content/icon-review.png"
             class="w-30 absolute left-0 top-0"
-            v-if="index === 3"
+            v-if="item.info.is_review"
           />
           <img :src="item.info?.head_pic" alt="" class="w-30 h-30 rounded-full object-cover mb-6" />
           <div class="flex items-center mb-3.5">
@@ -41,7 +41,7 @@
             danger
             type="primary"
             class="w-40 h-12 text-lg font-bold rounded-lg"
-            :loading="data.info.loading"
+            :loading="data.info?.loading"
             @click="rejectAll(data.info)"
             >Reject All</a-button
           >
@@ -71,7 +71,7 @@
               <!-- <div class="text-[#F00] font-bold">7Hours ago</div> -->
             </DescriptionsItem>
             <DescriptionsItem label="Nickname" :span="4">
-              <div class="flex items-center">
+              <div class="flex items-center min-h-14">
                 <div class="font-bold flex-1 pr-8">{{ data.nickname?.text }}</div>
                 <div v-if="!data.nickname.accept_status">
                   <a-button
@@ -92,7 +92,7 @@
               </div>
             </DescriptionsItem>
             <DescriptionsItem label="About Me" :span="4">
-              <div class="flex items-center">
+              <div class="flex items-center min-h-15">
                 <div class="flex-1 pr-8">{{ data.intro?.text }} </div>
                 <div v-if="!data.intro.accept_status">
                   <a-button
@@ -153,7 +153,7 @@
 
 <script lang="ts" setup>
   import { ref, computed } from 'vue';
-  import { Descriptions, DescriptionsItem, Empty } from 'ant-design-vue';
+  import { Descriptions, DescriptionsItem, Empty, message } from 'ant-design-vue';
   import { useWebSocketStore, Basickey } from '/@/store/modules/webSocket';
   import AlbumCard from './components/AlbumCard.vue';
   import StoryCard from './components/StoryCard.vue';
@@ -204,7 +204,6 @@
         }
       });
     }
-    console.log('album', ids);
 
     auditIds.value = ids;
   }
@@ -219,24 +218,29 @@
     const loadingKey = is_accept ? 'accepting' : 'rejecting';
     data[loadingKey] = true;
     sendMsg({ type: Basickey.PUT, data: { ids: [data.id], is_accept } }, (res) => {
+      data[loadingKey] = false;
       if (res.status) {
         data.accept_status = true;
         // 删除待审核id，如果没有则删除这条数据
-        console.log(auditIds.value, auditIds.value.indexOf(data.id));
-        auditIds.value.splice(auditIds.value.indexOf(data.id), 1);
+        auditIds.value.splice(auditIds.value.indexOf(data.id) >>> 0, 1);
+        message.success('Successful operation');
         if (!auditIds.value.length) {
           list.value.splice(active.value, 1);
+          if (active.value >= list.value.length) active.value = list.value.length - 1;
         }
       }
-      data[loadingKey] = false;
     });
   }
 
   function rejectAll(info) {
     info.loading = true;
-    sendMsg({ type: Basickey.PUT, data: { ids: auditIds.value, is_accept: false } }, () => {
+    sendMsg({ type: Basickey.PUT, data: { ids: auditIds.value, is_accept: false } }, (res) => {
       info.loading = false;
-      list.value.splice(active.value, 1);
+      if (res.status) {
+        list.value.splice(active.value, 1);
+        if (active.value >= list.value.length) active.value = list.value.length - 1;
+        message.success('Successful operation');
+      }
     });
   }
 </script>
