@@ -176,7 +176,7 @@
   sendMsg({ type: Basickey.HostCertification }, ({ data }) => {
     list.value = list.value.concat(data.list);
     loading.value = false;
-    if (!isNumber(active.value)) {
+    if (!isNumber(active.value) && list.value.length) {
       active.value = 0;
       getAuditIds();
     }
@@ -225,8 +225,7 @@
         auditIds.value.splice(auditIds.value.indexOf(data.id) >>> 0, 1);
         message.success('Successful operation');
         if (!auditIds.value.length) {
-          list.value.splice(active.value, 1);
-          if (active.value >= list.value.length) active.value = list.value.length - 1;
+          delAuditEndData();
         }
       }
     });
@@ -237,11 +236,16 @@
     sendMsg({ type: Basickey.PUT, data: { ids: auditIds.value, is_accept: false } }, (res) => {
       info.loading = false;
       if (res.status) {
-        list.value.splice(active.value, 1);
-        if (active.value >= list.value.length) active.value = list.value.length - 1;
+        delAuditEndData();
         message.success('Successful operation');
       }
     });
+  }
+
+  function delAuditEndData() {
+    list.value.splice(active.value, 1);
+    if (active.value >= list.value.length) active.value = list.value.length - 1;
+    if (!list.value.length) active.value = undefined;
   }
 </script>
 
