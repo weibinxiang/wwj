@@ -1,5 +1,8 @@
 <template>
-  <div class="mx-10.5 my-8 bg-white px-12 py-8 min-h-200 host-album rounded-xl" v-loading="loading">
+  <div
+    class="mx-10.5 my-8 bg-white px-12 py-8 min-h-200 host-album rounded-xl h-full overflow-y-auto"
+    v-loading="loading"
+  >
     <div
       class="grid gap-12 justify-center"
       style="grid-template-columns: repeat(auto-fill, 33.625rem)"

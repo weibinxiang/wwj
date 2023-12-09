@@ -28,7 +28,7 @@
       </div>
       <ColumnCard v-model:active="active" :column="column" @change="handleCloumnChange" />
     </div>
-    <div class="flex-1 overflow-y-auto">
+    <div class="flex-1 overflow-hidden">
       <PageLayout />
     </div>
   </div>

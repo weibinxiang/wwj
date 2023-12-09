@@ -1,9 +1,9 @@
 <template>
-  <div class="mx-10 my-11 bg-white rounded-xl flex" v-loading="loading">
+  <div class="mx-10 my-8 bg-white rounded-xl flex h-full" v-loading="loading">
     <template v-if="list.length">
-      <div class="p-6">
+      <div class="p-6 h-full overflow-y-auto certification-list">
         <div
-          class="relative w-60 rounded-lg flex flex-col items-center justify-center pt-6 pb-7 bg-[#FA4A820D] mb-6 cursor-pointer last:mb-0"
+          class="relative w-60 rounded-lg flex flex-col items-center justify-center pt-6 pb-7 bg-[#FA4A820D] mb-6 cursor-pointer last:mb-12"
           v-for="(item, index) in list"
           :key="item"
           :class="{ '!text-white !bg-[#0084FF]': active === index }"
@@ -25,7 +25,7 @@
 
       <div class="w-1px my-6 bg-black bg-opacity-10"></div>
 
-      <div class="flex-1 px-12 py-6">
+      <div class="flex-1 px-12 py-6 h-full overflow-y-auto">
         <div
           class="flex items-center justify-between pb-6 border-b-1 border-solid border-[#273C6233]"
         >
@@ -129,7 +129,7 @@
         </div>
         <div class="text-2xl font-bold mt-12 mb-6">Story</div>
         <div
-          class="py-6 grid gap-12 bg-gray-100 px-12 rounded-lg"
+          class="py-6 grid gap-12 bg-gray-100 px-12 rounded-lg mb-12"
           style="grid-template-columns: repeat(auto-fill, 18.75rem)"
         >
           <StoryCard
@@ -250,6 +250,15 @@
 </script>
 
 <style lang="less">
+  .certification-list {
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+  }
+
   .ant-btn-primary.ant-btn-dangerous {
     background-color: #fa4a82 !important;
   }
