@@ -128,7 +128,7 @@ export const useUserStore = defineStore({
       if (!this.getToken) return null;
       const userInfo = await getUserInfo();
 
-      useWebSocketStore();
+      useWebSocketStore().createSocket();
 
       const { roles = [] } = userInfo;
       if (isArray(roles)) {
@@ -155,7 +155,7 @@ export const useUserStore = defineStore({
       this.setToken(undefined);
       this.setSessionTimeout(false);
       this.setUserInfo(null);
-      useWebSocketStore().close();
+      useWebSocketStore().socketInstance?.close?.();
       goLogin && router.push(PageEnum.BASE_LOGIN);
     },
 
